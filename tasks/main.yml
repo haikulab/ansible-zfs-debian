@@ -1,0 +1,22 @@
+---
+
+- name: Download .deb file from
+  when: ansible_os_family == 'Debian'
+  get_url:
+    url: "{{ zfs_repo_url }}"
+    dest: /tmp/
+    checksum: "{{ zfs_deb_sha256 }}"
+  register: zfs_init_done
+
+- name: Upgrade System Packages
+  when: ansible_os_family == 'Debian'
+  apt: force=yes update_cache=yes upgrade=yes
+  register: system_updated
+
+- name: Install System Packages
+  when: (system_updated | success) and (zfs_init_done | success)
+  apt: pkg={{ item }} state=present force=yes update_cache=yes
+  with_items: "{{ zfs_packages }}"
+  register: zfs_packages_installed
+
+# - debug: msg="{{ system_packages_installed }}"

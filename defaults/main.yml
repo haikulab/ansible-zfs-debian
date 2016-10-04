@@ -1,0 +1,9 @@
+---
+# default variables
+# please overwrite in the playbook.yml
+
+zfs_repo_url: "http://archive.zfsonlinux.org/debian/pool/main/z/zfsonlinux/zfsonlinux_6_all.deb"
+zfs_deb_sha256: "sha256:c3a7221144f393e40429067c257fa34cc4c15f7219f046b870e4b106b5ded054"
+zfs_packages:
+  - linux-image-amd64
+  - debian-zfs
